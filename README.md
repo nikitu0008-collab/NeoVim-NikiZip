@@ -6,10 +6,9 @@
 [![clangd](https://img.shields.io/badge/clangd-17+-green)](https://clangd.llvm.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> A fast, feature-rich, and beautifully configured Neovim setup, finely tuned for modern **C++** development with `clangd` LSP.
+> A fast, feature-rich, and beautifully configured Neovim setup, finely tuned for modern **C++** development with `clangd` LSP.  
 > Perfect for daily coding, large projects, or competitive programming.
 
-![Neovim C++ Demo](screenshot.png)
 ---
 
 ## ✨ Key Features
@@ -20,6 +19,35 @@
 - **🔍 Lightning Fast Navigation** – `telescope.nvim` to find files, grep symbols, and search diagnostics.
 - **🧹 Auto-Formatting** – `clang-format` integration (on save or manually).
 - **🧩 Modular & Modern** – Built with `lazy.nvim` for blazing-fast startup and easy customization.
+
+---
+
+## 🖥️ Visual Tour
+
+<div align="center">
+  <img src="images/scr.png" alt="Main editing interface" width="90%">
+  <br>
+  <em>⚡ Main workspace – C++ code with LSP diagnostics and beautiful UI</em>
+</div>
+
+<br>
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="50%">
+        <img src="images/scr2.png" alt="Plugins configuration"><br>
+        <b>📦 Modular plugins.lua</b>
+      </td>
+      <td align="center" width="50%">
+        <img src="images/scr3.png" alt="Key mappings"><br>
+        <b>⌨️ Clean keymaps.lua</b>
+      </td>
+    </tr>
+  </table>
+</div>
+
+---
 
 ## 📋 Requirements
 
@@ -35,6 +63,8 @@ Before you begin, ensure your system meets the following requirements:
 | **Nerd Font** | (Optional) | Icons and UI elements | (e.g., `FiraCode Nerd Font`) |
 
 > **💡 Pro Tip:** For the best experience, also install `ripgrep` (for Telescope live grep) and `fd` (for faster file finding).
+
+---
 
 ## 📦 Installation
 
@@ -57,14 +87,11 @@ git clone https://github.com/nikitu0008-collab/NeoVim-NikiZip.git ~/.config/nvim
 
 3. Install Plugins
 
-Open Neovim. The lazy.nvim plugin manager will automatically install all required plugins.
-bash
-
+Open Neovim. The lazy.nvim plugin manager will automatically download and install all required plugins.
 nvim
-
 Wait for the installation to complete. You might see a message like [Lazy] Installing .... Once it's done, restart Neovim.
 
-    Note: If you encounter any issues, ensure curl is installed and accessible from your terminal.
+    Note: If you encounter any issues, ensure curl is installed and accessible from your terminal. lazy.nvim requires curl to fetch plugins from GitHub.
 
 4. Verify the Setup
 
