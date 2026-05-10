@@ -10,6 +10,7 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
+
 function custom_winbar()
     -- Получаем иконку для текущего типа файла
     local icon = require("nvim-web-devicons").get_icon(vim.fn.expand("%:t"), vim.fn.expand("%:e"), { default = "?" })
@@ -22,6 +23,8 @@ function custom_winbar()
     -- Собираем строку: иконка + имя файла
     return string.format("%s %s", icon or "?", filename)
 end
+
+
 -- Включаем winbar для всех окон
 vim.opt.winbar = "%{%v:lua.custom_winbar()%}"
 
@@ -53,7 +56,29 @@ vim.opt.synmaxcol = 128
 -- Оставить курсор по центру экрана при прокрутке
 vim.opt.scrolloff = 8
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function()
+    vim.diagnostic.config({
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = "🔴",
+          [vim.diagnostic.severity.WARN]  = "⚠️",
+          [vim.diagnostic.severity.HINT]  = "💡",
+          [vim.diagnostic.severity.INFO]  = "ℹ️",
+        },
+      },
+    })
+  end,
+})
+
 require("options")
 require("keymaps")
 
-require("lazy").setup("plugins")
+require("lazy").setup({
+  -- Импортируем все файлы из lua/plugins/ (каждый должен возвращать таблицу плагинов)
+  { import = "plugins" },
+}, {
+  install = { colorscheme = { "catppuccin" } },
+  checker = { enabled = true },
+})
+
