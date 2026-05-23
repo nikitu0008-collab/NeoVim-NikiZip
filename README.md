@@ -1,166 +1,121 @@
-# ⚡ NeoVim-NikiZip
+# 🚀 NeoVim-NikiZip
 
-### *Modern C++ & C# Development Environment for Neovim*
+### *Zero‑config Neovim distro for C++ & C# — just code, no tinkering*
 
 [![Neovim](https://img.shields.io/badge/Neovim-0.9+-blueviolet?logo=neovim&style=flat-square)](https://neovim.io/)
 [![Lua](https://img.shields.io/badge/Lua-5.1-blue?logo=lua&style=flat-square)](https://www.lua.org/)
-[![clangd](https://img.shields.io/badge/clangd-17+-green?logo=llvm&style=flat-square)](https://clangd.llvm.org/)
-[![.NET](https://img.shields.io/badge/.NET-8.0+-purple?logo=dotnet&style=flat-square)](https://dotnet.microsoft.com/)
+[![C++](https://img.shields.io/badge/C++-clangd-00599C?logo=cplusplus&style=flat-square)](https://clangd.llvm.org/)
+[![C#](https://img.shields.io/badge/C%23-OmniSharp-239120?logo=csharp&style=flat-square)](https://github.com/OmniSharp/omnisharp-roslyn)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Stars](https://img.shields.io/github/stars/nikitu0008-collab/NeoVim-NikiZip?style=flat-square)](https://github.com/nikitu0008-collab/NeoVim-NikiZip)
 
-> **Backend‑grade editor setup** – Fast, modular, and tailored for modern C++ and C# development.  
-> No distractions, just smart tooling for large codebases and competitive programming.
+> **Designed for backend engineers who want a blazing‑fast IDE without spending weeks configuring LSP, snippets, and formatting.**  
+> Open a `.cpp` or `.cs` file — everything just works.
 
 ---
 
-## 🖥️ Visual Tour
+## ✨ Why this config?
+
+| Problem | Solution |
+|:--------|:---------|
+| ❌ LSP setup for C++/C# is painful | ✅ `clangd` + `OmniSharp` auto‑configured |
+| ❌ `compile_commands.json` missing | ✅ Automatic detection + hints how to generate |
+| ❌ Navigating huge codebases is slow | ✅ Telescope with smart ignores (build/, bin/, obj/) |
+| ❌ Formatting on save never works | ✅ `clang-format` & LSP formatting enabled out of the box |
+| ❌ Too many plugins, no idea what they do | ✅ Minimal, modular, documented in `lua/` |
+
+**No hidden costs. No hours of dotfile tweaking.**
+
+---
+
+## 🖥️ See it in action
 
 <div align="center">
-  <img src="images/scr4.png" alt="NeoVim-NikiZip workspace" width="90%">
+  <!-- Replace with your own GIF (use vhs or asciinema) -->
+  <img src="https://your-domain.com/demo.gif" alt="Demo of NeoVim-NikiZip" width="90%">
   <br>
-  <em>⚡ Main workspace – C++ code with LSP diagnostics, autocompletion, and a clean UI</em>
+  <em>⚡ LSP diagnostics, autocompletion, Telescope search – all at your fingertips</em>
 </div>
 
----
-
-## ✨ Core Features
-
-| Area | Tools |
-| :--- | :--- |
-| **LSP** | `clangd` (C++), `OmniSharp` / `csharp-ls` (C#) |
-| **Completion** | `nvim-cmp` + snippets + LSP |
-| **Navigation** | `telescope.nvim` (files, grep, diagnostics, symbols) |
-| **Syntax** | Tree‑sitter (C++, C#, and 40+ others) |
-| **Formatting** | `clang-format` (C++), LSP formatting (C#) |
-| **Project** | Automatic detection of `compile_commands.json`, `.sln`, `.csproj` |
-| **Performance** | `lazy.nvim` – plug‑and‑play, lazy loading, fast startup |
+> *A static screenshot is nice, but a 10‑second GIF tells the whole story. [Record your own](https://github.com/charmbracelet/vhs) and replace the link.*
 
 ---
 
-## 📋 Requirements
+## 🎯 One‑line install (really)
 
-| Tool | Version | Check |
-| :--- | :--- | :--- |
-| Neovim | ≥ 0.9 (0.10+ recommended) | `nvim --version` |
-| Git | ≥ 2.30 | `git --version` |
-| curl | ≥ 7.68 | `curl --version` |
-| clangd | ≥ 15 | `clangd --version` |
-| .NET SDK | ≥ 8.0 | `dotnet --version` |
-| ripgrep / fd | (optional, for Telescope) | `rg --version` / `fd --version` |
+```
+git clone https://github.com/nikitu0008-collab/NeoVim-NikiZip.git ~/.config/nvim && nvim --headless +'Lazy! sync' +qa
 
-> **Nerd Font** – optional, but recommended for icons (e.g., `FiraCode Nerd Font`).
+Then open any C++ or C# file. That's it.
 
----
+    First launch downloads all plugins and LSP servers automatically. You’ll see Mason installing clangd and omnisharp in the background. No extra commands.
 
-## 📦 Installation
-
-### 1. Backup existing config (if any)
-```bash
-mv ~/.config/nvim ~/.config/nvim.bak
-mv ~/.local/share/nvim ~/.local/share/nvim.bak
-mv ~/.local/state/nvim ~/.local/state/nvim.bak
-2. Clone this repository
-bash
-
-git clone https://github.com/nikitu0008-collab/NeoVim-NikiZip.git ~/.config/nvim
-
-3. Install plugins & LSP servers
-bash
-
-nvim --headless +Lazy! sync +qa
-
-Or just run nvim – lazy.nvim will automatically install everything.
-
-    Note: The first launch will download all plugins. LSP servers (clangd, omnisharp) are managed by mason.nvim and will be installed automatically when you open a C++ or C# file.
-
-4. Verify LSP is active
-
-Open a C++ file and run:
-vim
-
-:LspInfo
-
-You should see clangd as an active client. For C#, open any .cs file – omnisharp or csharp-ls will attach.
-🛠 Customization (backend‑style)
-
-All configuration lives in lua/. It’s modular, so you can tweak without breaking things.
-Change colorscheme
-
-Edit lua/plugins/theme.lua – replace 'catppuccin' with your favourite.
-Add another LSP (e.g., pyright, rust_analyzer)
-
-Open lua/lsp.lua and append to the servers list.
-Adjust clangd flags
-
-Create .clangd in your project root:
-yaml
-
-CompileFlags:
-  Add: [-std=c++20, -Iinclude]
-
-C# project file
-
-The LSP will automatically recognise .sln or .csproj. To customise OmniSharp, see lua/lsp/omnisharp.lua.
-Key mappings
-
-All shortcuts are defined in lua/keymaps.lua. Examples:
-Action	Mapping
+📋 What you get – Core features
+Area	Tools
+LSP	clangd (C++, with compile_commands.json), OmniSharp (C#, with .sln/.csproj support)
+Completion	nvim-cmp + snippets + LSP – appears as you type
+Navigation	telescope.nvim – find files, grep, diagnostics, symbols (ignores build/, bin/, obj/)
+Syntax	Tree‑sitter for C++, C#, and 40+ other languages
+Formatting	Auto‑format on save for both C++ and C#
+Project detection	Automatically picks up compile_commands.json (CMake) or .sln/.csproj (dotnet)
+🔑 Default key mappings
+Action	Shortcut
 Find files	<leader>ff
 Live grep	<leader>fg
 Go to definition	gd
 Rename symbol	<leader>rn
 Code actions	<leader>ca
+LSP info	<leader>li
 
-    <leader> is space by default.
+(<leader> = space)
+🚀 Quick start for C++ / C# projects
+C++ (CMake)
 
-🧩 Project structure (what you can expect)
-text
+# Generate compilation database
+cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+# clangd will pick it up automatically
 
-~/.config/nvim/
-├── init.lua              # Entry point, loads lazy.nvim
-├── lua/
-│   ├── options.lua       # Neovim options (tabs, line numbers, etc.)
-│   ├── keymaps.lua       # Global mappings
-│   ├── lazy.lua          # Plugin manager setup
-│   ├── plugins/          # Plugin configurations
-│   │   ├── lsp.lua       # LSP + Mason setup
-│   │   ├── cmp.lua       # Autocompletion
-│   │   ├── telescope.lua # File finder
-│   │   └── treesitter.lua# Syntax highlighting
-│   └── ...
+C# (dotnet)
 
-🚀 Tips for backend developers
+dotnet new console -n MyApp
+cd MyApp
+nvim Program.cs   # LSP attaches, formatting works, references resolved
 
-    Compilation database – Use CMake with -DCMAKE_EXPORT_COMPILE_COMMANDS=ON to let clangd understand your project.
+🔧 Customisation (you won't need it, but here's how)
 
-    C# solution – dotnet build works out of the box; LSP picks up references.
+All settings are in lua/ – modular, easy to tweak.
 
-    Formatting on save – Enabled by default for both C++ and C#. Disable in lua/plugins/lsp.lua.
+    Change colorscheme – edit lua/plugins/theme.lua
 
-    Debugging – You can integrate nvim-dap with netcoredbg for C#. (Not included by default – add it yourself.)
+    Add another LSP (e.g., pyright, rust_analyzer) – add to lua/lsp.lua
 
-    Quick switching – :Telescope projects if you add project.nvim plugin.
+    Disable auto‑format – comment out the format_on_save line in lua/plugins/lsp.lua
 
-🙏 Acknowledgements
+For advanced changes, see CUSTOMIZATION.md (you can create this file later).
+📦 Requirements (most are already on your machine)
+Tool	Minimum version	Why
+Neovim	0.9+ (0.10 recommended)	Core editor
+Git	2.30+	Clone and plugin management
+curl	7.68+	Downloader for plugins
+clangd	15+	C++ LSP (will be installed by Mason)
+.NET SDK	8.0+	C# LSP (will be installed by Mason)
+ripgrep or fd	any	For Telescope search (optional but recommended)
 
-Built on the shoulders of:
+    Nerd Font (optional) – makes icons prettier. Try FiraCode Nerd Font.
 
-    Neovim
+💬 Community & support
 
-    lazy.nvim
+    📢 Telegram channel – t.me/neovim_nikizip (ask questions, share feedback)
 
-    nvim-lspconfig
+    🐙 GitHub Issues – bug reports, feature requests
 
-    mason.nvim
+    ⭐ Star this repo – helps others discover a smooth C++/C# Neovim experience
 
-    nvim-cmp
+🙏 Credits
 
-    telescope.nvim
-
-    nvim-treesitter
-
+Built with ❤️ using lazy.nvim, nvim-lspconfig, mason.nvim, and the amazing Neovim community.
 📄 License
 
 MIT – free to use, modify, and share.
 
-⭐ If this setup makes your backend coding smoother, give it a star!
+If this config saves you hours of configuration, give it a star ⭐ – it means the world!
