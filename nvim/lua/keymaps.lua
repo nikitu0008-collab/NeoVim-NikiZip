@@ -5,6 +5,7 @@ local map = vim.keymap.set
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- my binds and keymap
 
 -- Навигаци по сплитам (Ctrl + hjkl)
 map("n", "<C-h>", "<C-w>h", { desc = "Перейти в левый сплит" })

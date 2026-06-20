@@ -56,6 +56,8 @@ vim.opt.synmaxcol = 128
 -- Оставить курсор по центру экрана при прокрутке
 vim.opt.scrolloff = 8
 
+vim.api.nvim_set_keymap('n', '<leader>tp', ':lua require("theme-picker").open_theme_picker()<CR>', { noremap = true, silent = true })
+
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function()
     vim.diagnostic.config({
@@ -70,6 +72,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
     })
   end,
 })
+
+-- Команда :Tp
+vim.api.nvim_create_user_command('Tp', function()
+  require('theme-picker').open_theme_picker()
+end, { desc = 'Open theme picker' })
+
+-- Или более длинная, но понятная :ThemePicker
+vim.api.nvim_create_user_command('ThemePicker', function()
+  require('theme-picker').open_theme_picker()
+end, {})
 
 require("options")
 require("keymaps")
