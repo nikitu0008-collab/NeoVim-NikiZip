@@ -1,6 +1,7 @@
 -- ~/.config/nvim/init.lua
+local uv = vim.uv or vim.loop
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -32,10 +33,6 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.env.PATH = vim.env.PATH .. ':' .. vim.fn.expand('~/.dotnet/tools')
 
--- Настройка таймаута для различения одиночного и двойного нажатия (опционально)
-vim.o.timeout = true          -- Включить таймаут для последовательностей клавиш
-vim.o.timeoutlen = 500        -- Максимальное время между нажатиями (мс)
-
 -- 1. Двойной Enter: разбить строку в позиции курсора (перенос остатка на новую строку)
 vim.keymap.set('n', '<CR><CR>', 'i<CR><Esc>', { desc = 'Split line at cursor' })
 
@@ -43,18 +40,6 @@ vim.keymap.set('n', '<CR><CR>', 'i<CR><Esc>', { desc = 'Split line at cursor' })
 vim.keymap.set('n', '<BS><BS>', 'X', { desc = 'Delete character before cursor' })
 
 -- optimization moved j, k 
-
--- Ускорение отрисовки (меньше лагов при быстрой прокрутке)
-vim.opt.lazyredraw = true
-
--- Уменьшить время ожидания key-mapped sequences
-vim.opt.timeoutlen = 300
-
--- Синхронизация синтаксиса с minlines для больших файлов
-vim.opt.synmaxcol = 128
-
--- Оставить курсор по центру экрана при прокрутке
-vim.opt.scrolloff = 8
 
 vim.api.nvim_set_keymap('n', '<leader>tp', ':lua require("theme-picker").open_theme_picker()<CR>', { noremap = true, silent = true })
 

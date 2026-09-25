@@ -1,26 +1,62 @@
 -- ~/.config/nvim/lua/options.lua
 local opt = vim.opt
 
-opt.number = true          -- Включить относительную нумерацию
+-- Нумерация строк
+opt.number = true
 opt.relativenumber = true
-opt.tabstop = 4            -- Размер табуляции в пробелах
+
+-- Отступы (4 пробела)
+opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
-opt.expandtab = true       -- Превращать табы в пробелы
+opt.expandtab = true
 opt.autoindent = true
 opt.smartindent = true
-opt.wrap = false           -- Отключаем перенос строк
-opt.termguicolors = true   -- Включаем 24-битные цвета для темы
 
--- НАСТРОЙКА ОТОБРАЖЕНИЯ ОШИБОК И ПРЕДУПРЕЖДЕНИЙ (diagnostics)
+-- Переносы, скролл
+opt.wrap = false
+opt.scrolloff = 8
+opt.sidescrolloff = 8
+
+-- Шрифт (для GUI-клиентов: neovide, nvim-qt и т.п.)
+opt.guifont = "JetBrainsMono Nerd Font Mono:h13:w500"
+
+-- Цвета и внешний вид
+opt.termguicolors = true
+opt.cursorline = true
+opt.signcolumn = "yes"
+opt.fillchars = { eob = " " }
+opt.list = true
+opt.listchars = { tab = "» ", trail = "·" }
+
+-- Поиск
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = true
+opt.incsearch = true
+
+-- Разделение окон
+opt.splitright = true
+opt.splitbelow = true
+
+-- Удобство
+opt.clipboard = "unnamedplus"
+opt.mouse = "a"
+opt.undofile = true
+opt.updatetime = 250
+opt.timeoutlen = 300
+opt.lazyredraw = true
+opt.synmaxcol = 128
+
+-- Диагностика
 vim.diagnostic.config({
-  virtual_text = true,      -- Текст ошибки в конце строки (рядом с кодом)
-  signs = true,             -- Значки на полях (например, >>)
-  underline = true,         -- Подчёркивание ошибочного кода
-  update_in_insert = false, -- Не обновлять диагностику во время ввода
-  severity_sort = true,     -- Сначала показывать ошибки, потом предупреждения
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
   float = {
-    border = "rounded",     -- Красивая рамка у всплывающего окна
-    source = true,          -- Показывать источник (clangd)
+    border = "rounded",
+    source = true,
   },
 })

@@ -21,7 +21,6 @@ return {
       "hrsh7th/nvim-cmp", -- для capabilities
     },
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local on_attach = function(client, bufnr)
@@ -39,32 +38,22 @@ return {
       end
 
       -- clangd
-      lspconfig.clangd.setup({
+      vim.lsp.config("clangd", {
         cmd = { "clangd", "--enable-config" },
         capabilities = capabilities,
         on_attach = on_attach,
+        root_markers = { ".clangd", ".clang-format", ".clang-tidy", "compile_commands.json" },
       })
 
       -- csharp_ls
-      lspconfig.csharp_ls.setup({
+      vim.lsp.config("csharp_ls", {
         capabilities = capabilities,
         on_attach = on_attach,
         filetypes = { "cs" },
-        root_dir = lspconfig.util.root_pattern(".git", "*.sln", "*.csproj"),
+        root_markers = { ".git", "*.sln", "*.csproj" },
       })
 
-      -- Автокоманда для всех LSP (дополнительно)
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-        callback = function(ev)
-          local opts = { buffer = ev.buf }
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-          vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-          vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
-        end,
-      })
+      vim.lsp.enable({ "clangd", "csharp_ls" })
     end,
   },
 }

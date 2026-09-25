@@ -1,38 +1,44 @@
 -- ~/.config/nvim/lua/plugins/colorscheme.lua
 return {
-  -- Catppuccin (уже был)
+  -- Catppuccin (дефолтная тема, активируется при старте)
   {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
     config = function()
       require("catppuccin").setup({
-        flavour = "mocha",   -- можно сменить на macchiato, frappe, latte
+        flavour = "mocha",
         transparent_background = false,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          treesitter = true,
+          telescope = { enabled = true },
+          which_key = true,
+          neotree = { enabled = true },
+          lualine = true,
+          dashboard = true,
+          mason = true,
+          blink = false,
+        },
       })
-      -- Если хотите, чтобы эта тема загружалась по умолчанию — раскомментируйте:
-      -- vim.cmd.colorscheme("catppuccin")
+      vim.cmd.colorscheme("catppuccin")
     end,
   },
 
-  -- Koda (новый, рабочий репозиторий)
+  -- Koda (альтернатива, лениво — по команде :colorscheme koda)
   {
     "oskarnurm/koda.nvim",
     name = "koda",
-    config = function()
-      -- Никаких настроек не требуется, но можно задать опции, если они появятся
-    end,
+    lazy = true,
   },
 
   -- Yorumi (тёмная, приглушённая)
   {
     "yorumicolors/yorumi.nvim",
+    lazy = true,
     config = function()
-      require("yorumi").setup({
-        -- Доступные стили: "dark" (по умолчанию), "darker" (ещё темнее), "light"
-        style = "darker",   -- выберите "darker" для максимально тёмного фона
-        -- Также можно настроить контраст и акценты, но для начала этого достаточно
-      })
+      vim.cmd.colorscheme("yorumi")
     end,
   },
 }

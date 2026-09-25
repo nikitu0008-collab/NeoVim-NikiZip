@@ -1,9 +1,10 @@
+-- blink.nvim отключён: в конфиге используется nvim-cmp (нельзя держать два
+-- движка дополнения одновременно). Чтобы включить — удали/закомментируй
+-- ненужный и поменяй `enabled = false` на событие загрузки.
 return {
   {
-    'saghen/blink.nvim',
-    version = 'v0.*',
-    opts = {
-      keymap = { preset = 'default' },
-    },
+    "saghen/blink.nvim",
+    version = "v0.*",
+    enabled = false,
   },
 }
