@@ -45,6 +45,7 @@
 
 ```
 git clone https://github.com/nikitu0008-collab/NeoVim-NikiZip.git ~/.config/nvim && nvim --headless +'Lazy! sync' +qa
+```
 
 Then open any C++ or C# file. That's it.
 
