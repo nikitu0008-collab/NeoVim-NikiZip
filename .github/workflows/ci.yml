@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install luacheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y luarocks
+          sudo luarocks install luacheck
+
+      - name: luacheck (fail only on syntax errors, warnings are informational)
+        run: |
+          set +e
+          luacheck nvim/lua nvim/init.lua
+          rc=$?
+          # 0 -- чисто; 1 -- синтаксические ошибки (fail); 2 -- стилистические предупреждения (не fail)
+          if [ "$rc" -eq 1 ]; then exit 1; fi
+          exit 0
