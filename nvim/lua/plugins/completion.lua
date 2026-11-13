@@ -1,6 +1,7 @@
 return {
   {
     "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "L3MON4D3/LuaSnip",
@@ -10,6 +11,7 @@ return {
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+
       require("luasnip.loaders.from_vscode").lazy_load()
 
       cmp.setup({
@@ -28,8 +30,8 @@ return {
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "luasnip" },
-        }, {
           { name = "buffer" },
+          { name = "path" },
         }),
       })
     end,

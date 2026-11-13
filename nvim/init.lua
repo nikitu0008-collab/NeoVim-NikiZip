@@ -1,8 +1,7 @@
--- ~/.config/nvim/init.lua
-local uv = vim.uv or vim.loop
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not uv.fs_stat(lazypath) then
-  vim.fn.system({
+
+if not vim.uv.fs_stat(lazypath) then
+  local output = vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
@@ -10,72 +9,31 @@ if not uv.fs_stat(lazypath) then
     "--branch=stable",
     lazypath,
   })
+
+  if vim.v.shell_error ~= 0 then
+    error("Failed to clone lazy.nvim:\n" .. output)
+  end
 end
-
-function custom_winbar()
-    -- Получаем иконку для текущего типа файла
-    local icon = require("nvim-web-devicons").get_icon(vim.fn.expand("%:t"), vim.fn.expand("%:e"), { default = "?" })
-    -- Получаем имя файла
-    local filename = vim.fn.expand("%:t")
-    -- Если файл не сохранен, показываем [No Name]
-    if filename == "" then
-        filename = "[No Name]"
-    end
-    -- Собираем строку: иконка + имя файла
-    return string.format("%s %s", icon or "?", filename)
-end
-
-
--- Включаем winbar для всех окон
-vim.opt.winbar = "%{%v:lua.custom_winbar()%}"
 
 vim.opt.rtp:prepend(lazypath)
 
-vim.env.PATH = vim.env.PATH .. ':' .. vim.fn.expand('~/.dotnet/tools')
-
--- 1. Двойной Enter: разбить строку в позиции курсора (перенос остатка на новую строку)
-vim.keymap.set('n', '<CR><CR>', 'i<CR><Esc>', { desc = 'Split line at cursor' })
-
--- 2. Двойной Backspace: удалить символ слева от курсора (как Backspace в режиме вставки)
-vim.keymap.set('n', '<BS><BS>', 'X', { desc = 'Delete character before cursor' })
-
--- optimization moved j, k 
-
-vim.api.nvim_set_keymap('n', '<leader>tp', ':lua require("theme-picker").open_theme_picker()<CR>', { noremap = true, silent = true })
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function()
-    vim.diagnostic.config({
-      signs = {
-        text = {
-          [vim.diagnostic.severity.ERROR] = "🔴",
-          [vim.diagnostic.severity.WARN]  = "⚠️",
-          [vim.diagnostic.severity.HINT]  = "💡",
-          [vim.diagnostic.severity.INFO]  = "ℹ️",
-        },
-      },
-    })
-  end,
-})
-
--- Команда :Tp
-vim.api.nvim_create_user_command('Tp', function()
-  require('theme-picker').open_theme_picker()
-end, { desc = 'Open theme picker' })
-
--- Или более длинная, но понятная :ThemePicker
-vim.api.nvim_create_user_command('ThemePicker', function()
-  require('theme-picker').open_theme_picker()
-end, {})
-
-require("options")
-require("keymaps")
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
+require("config.diagnostics")
 
 require("lazy").setup({
-  -- Импортируем все файлы из lua/plugins/ (каждый должен возвращать таблицу плагинов)
-  { import = "plugins" },
-}, {
-  install = { colorscheme = { "catppuccin" } },
-  checker = { enabled = true },
+  spec = {
+    { import = "plugins" },
+  },
+  install = {
+    colorscheme = { "catppuccin" },
+  },
+  checker = {
+    enabled = true,
+    notify = false,
+  },
+  change_detection = {
+    notify = false,
+  },
 })
-
